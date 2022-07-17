@@ -59,7 +59,7 @@ $query->toSql() // "select `id` from `users`"
 ```php
 $query = User::query()
     ->whereLike('name', 'Matti Suo', 'right')
-    ->orWhereLike('name', 'ranie');
+    ->orWhereLike('name', 'ranie')
     ->orWhereLike('name', 'mi', 'left');
 
 $query->toSql(); // "select * from `users` where (`name` LIKE ?) or (`name` LIKE ?) or (`name` LIKE ?)"
@@ -78,7 +78,7 @@ Add raw select statements as an array, instead of as a one ugly string (`selectR
 
 ```php
 $query = User::query()->selectRawArr([
-    'concat(`id`, "-", `name`) as id_name'
+    'concat(`id`, "-", `name`) as id_name',
     'concat(`email`, "-", `name`) as email_name'
 ]);
 
