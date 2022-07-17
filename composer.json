@@ -1,0 +1,47 @@
+{
+    "name": "lyhty/macros",
+    "description": "Helpful macros for your Laravel project.",
+    "keywords": [
+        "laravel",
+        "macro"
+    ],
+    "homepage": "https://matti.suoraniemi.com/creations/lyhty/macros",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Matti Suoraniemi",
+            "email": "matti@suoraniemi.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/support": "^8.0",
+        "illuminate/console": "^8.0",
+        "lyhty/support": ">=1.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lyhty\\Macros\\": "src"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lyhty\\Macros\\LyhtyMacroServiceProvider"
+            ]
+        }
+    }
+}
