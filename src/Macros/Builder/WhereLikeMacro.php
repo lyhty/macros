@@ -16,34 +16,59 @@ class WhereLikeMacro
 {
     public function __invoke(): Closure
     {
-        return function ($attributes, string $searchTerm, string $pattern = 'both', bool $or = false) {
-            $patterns = [
-                'left' => fn ($search) => "%{$search}",
-                'right' => fn ($search) => "{$search}%",
-                'both' => fn ($search) => "%{$search}%",
-            ];
+        $class = static::class;
 
-            $this->{! $or ? 'where' : 'orWhere'}(function (Builder $query) use ($attributes, $searchTerm, $pattern, $patterns) {
-                foreach (Arr::wrap($attributes) as $attribute) {
-                    $query->when(
-                        is_string($attribute) && Str::contains($attribute, '.'),
-                        function (Builder $query) use ($attribute, $searchTerm, $pattern, $patterns) {
-                            [$relationName, $relationAttribute] = explode('.', $attribute);
-
-                            $query->orWhereHas($relationName,
-                                function (Builder $query) use ($relationAttribute, $searchTerm, $pattern, $patterns) {
-                                    $query->where($relationAttribute, 'LIKE', $patterns[$pattern]($searchTerm));
-                                }
-                            );
-                        },
-                        function (Builder $query) use ($attribute, $searchTerm, $pattern, $patterns) {
-                            $query->orWhere($attribute, 'LIKE', $patterns[$pattern]($searchTerm));
-                        }
-                    );
-                }
-            });
-
-            return $this;
+        return function ($attributes, string $searchTerm, string $pattern = 'both', bool $or = false) use ($class) {
+            return $this->{! $or ? 'where' : 'orWhere'}(
+                fn (Builder $query) => $class::scope(
+                    $query,
+                    $class::format($attributes),
+                    $class::formatSearch($searchTerm, $pattern)
+                )
+            );
         };
+    }
+
+    public static function formatSearch($searchTerm, $pattern): string
+    {
+        $searchTerm = trim($searchTerm, '%');
+
+        switch ($pattern) {
+            case 'l':
+            case 'left': return "%{$searchTerm}";
+            case 'r':
+            case 'right': return "{$searchTerm}%";
+            default: return "%{$searchTerm}%";
+        }
+    }
+
+    public static function format($attributes): array
+    {
+        $attrs = ['_attrs' => []];
+
+        foreach (Arr::wrap($attributes) as $attribute) {
+            if (Str::contains($attribute, '.')) {
+                [$relation, $attr] = Str::explodeReverse($attribute, '.', 2);
+                $attrs["$relation._attrs"][] = $attr;
+            } else {
+                $attrs['_attrs'][] = $attribute;
+            }
+        }
+
+        return Arr::undot($attrs);
+    }
+
+    public static function scope(Builder $query, array $values, $searchTerm)
+    {
+        foreach ($values['_attrs'] ?? [] as $index => $attribute) {
+            $model = $query->getModel();
+            $query->orWhere($model->qualifyColumn($attribute), 'LIKE', $searchTerm);
+        }
+
+        foreach (Arr::except($values, ['_attrs']) as $relationship => $sub) {
+            $query->orWhereHas($relationship, fn (Builder $query) => $query->where(
+                fn (Builder $query) => static::scope($query, $sub, $searchTerm)
+            ));
+        }
     }
 }
