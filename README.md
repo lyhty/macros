@@ -64,26 +64,14 @@ $query = User::query()
     ->orWhereLike('name', 'ranie')
     ->orWhereLike('name', 'mi', 'left');
 
-$query->toSql();
-// "select * from `users` where (`users`.`name` LIKE ?) or (`users`.`name` LIKE ?) or (`users`.`name` LIKE ?)"
+$query->toSql(); // "select * from `users` where (`name` LIKE ?) or (`name` LIKE ?) or (`name` LIKE ?)"
 // First ? being "Matti Suo%", second "%ranie%" and third "%mi"
 
 $query = User::query()->whereLike('games.name', 'Apex Leg', 'right');
 
 $query->toSql();
-// select * from `users` where (exists
-//   (select * from `games` where `users`.`id` = `games`.`user_id` and `games`.`name` LIKE ?)
-// )
+// select * from `users` where (exists (select * from `games` where `users`.`id` = `games`.`user_id` and `name` LIKE ?))
 // ? being "Apex Leg%"
-
-$query = User::query()->whereLike(['games.console.name', 'games.platforms.name'], 'Xbox');
-
-$query->toSql();
-// select * from `users` where (exists (select * from `games` where `users`.`id` = `games`.`user_id` and (exists
-// (select * from `consoles` where `games`.`console_id` = `consoles`.`id` and (`consoles`.`name` LIKE ?)) or exists
-// (select * from `platforms` inner join `platform_game` on `platforms`.`id` = `platform_game`.`platform_id` where
-// `games`.`id` = `platform_game`.`game_id` and (`platforms`.`name` LIKE ?)))))
-// ? being "Xbox"
 ```
 
 ### `Illuminate\Database\Query\Builder::selectRawArr`
