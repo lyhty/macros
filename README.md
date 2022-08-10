@@ -38,8 +38,10 @@ Here's a brief documentation on the macros the package provides.
   - [`zip`](#illuminatesupportarrzip)
   - [`unzip`](#illuminatesupportarrunzip)
 - `Illuminate\Support\Str`
+  - [`explodeReverse`](#illuminatesupportstrexplodereverse)
   - [`wrap`](#illuminatesupportstrwrap)
 - `Illuminate\Support\Stringable`
+  - [`explodeReverse`](#illuminatesupportstringableexplodereverse)
   - [`wrap`](#illuminatesupportstringablewrap)
 - `Carbon\CarbonPeriod`
   - [`collect`](#carboncarbonperiodcollect)
@@ -62,14 +64,26 @@ $query = User::query()
     ->orWhereLike('name', 'ranie')
     ->orWhereLike('name', 'mi', 'left');
 
-$query->toSql(); // "select * from `users` where (`name` LIKE ?) or (`name` LIKE ?) or (`name` LIKE ?)"
+$query->toSql();
+// "select * from `users` where (`users`.`name` LIKE ?) or (`users`.`name` LIKE ?) or (`users`.`name` LIKE ?)"
 // First ? being "Matti Suo%", second "%ranie%" and third "%mi"
 
 $query = User::query()->whereLike('games.name', 'Apex Leg', 'right');
 
-$query->toSql(); 
-// select * from `users` where (exists (select * from `games` where `users`.`id` = `games`.`user_id` and `name` LIKE ?))
+$query->toSql();
+// select * from `users` where (exists
+//   (select * from `games` where `users`.`id` = `games`.`user_id` and `games`.`name` LIKE ?)
+// )
 // ? being "Apex Leg%"
+
+$query = User::query()->whereLike(['games.console.name', 'games.platforms.name'], 'Xbox');
+
+$query->toSql();
+// select * from `users` where (exists (select * from `games` where `users`.`id` = `games`.`user_id` and (exists
+// (select * from `consoles` where `games`.`console_id` = `consoles`.`id` and (`consoles`.`name` LIKE ?)) or exists
+// (select * from `platforms` inner join `platform_game` on `platforms`.`id` = `platform_game`.`platform_id` where
+// `games`.`id` = `platform_game`.`game_id` and (`platforms`.`name` LIKE ?)))))
+// ? being "Xbox"
 ```
 
 ### `Illuminate\Database\Query\Builder::selectRawArr`
@@ -84,9 +98,9 @@ $query = User::query()->selectRawArr([
 
 $query->first()->toArray() // ["id_name" => "1-Matti", "email_name" => "matti@suoraniemi.com-Matti"]
 
-// VS
-
+// Instead of:
 $query = User::query()->selectRaw('concat(`id`, "-", `name`) as id_name, concat(`email`, "-", `name`) as email_name');
+// 🤢
 ```
 
 ### `Illuminate\Support\Collection::mergeMany`
@@ -221,6 +235,19 @@ Unzips keys to key and value with the given zipper.
 Arr::unzip(['foo:bar', 'zoo:gar'], ':') // ["foo" => "bar", "zoo" => "gar"]
 ```
 
+### `Illuminate\Support\Str::explodeReverse`
+
+Explodes the given string from the end instead of the start and returns it as
+a `Illuminate\Support\Collection` class instance.
+
+```php
+Str::explodeReverse('games.platforms.name', '.', 2)->toArray() // ['games.platforms', 'name']
+
+// Whereas normal explode function would do:
+explode('.', 'games.platforms.name', 2) // ['games', 'platforms.name']
+```
+
+
 ### `Illuminate\Support\Str::wrap`
 
 Wraps the string with given character(s).
@@ -231,9 +258,20 @@ Str::wrap('bar', '<', '>') // "<bar>"
 Str::wrap('!zoo', '!') // "!zoo!"
 ```
 
+### `Illuminate\Support\Stringable::explodeReverse`
+
+See [Illuminate\Support\Str::explodeReverse](#illuminatesupportstrexplodereverse)
+
+```php
+Str::of('games.platforms.name')->explodeReverse('.', 2)->toArray() // ['games.platforms', 'name']
+
+// Whereas normal explode function would do:
+Str::of('games.platforms.name')->explode('.', 2)->toArray() // ['games', 'platforms.name']
+```
+
 ### `Illuminate\Support\Stringable::wrap`
 
-Wraps the string with given character(s).
+See [Illuminate\Support\Str::wrap](#illuminatesupportstrwrap)
 
 ```php
 (string) Str::of('foo')->upper()->wrap(':') // ":FOO:"

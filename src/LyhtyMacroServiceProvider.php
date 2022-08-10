@@ -39,9 +39,11 @@ class LyhtyMacroServiceProvider extends ServiceProvider
             'zip' => Macros\Arr\ZipMacro::class,
         ],
         \Illuminate\Support\Str::class => [
+            'explodeReverse' => Macros\Str\ExplodeReverseMacro::class,
             'wrap' => Macros\Str\WrapMacro::class,
         ],
         \Illuminate\Support\Stringable::class => [
+            'explodeReverse' => Macros\Stringable\ExplodeReverseMacro::class,
             'wrap' => Macros\Stringable\WrapMacro::class,
         ],
         \Carbon\CarbonPeriod::class => [
@@ -66,6 +68,9 @@ class LyhtyMacroServiceProvider extends ServiceProvider
             })->toArray();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function boot()
     {
         $this->publishes([
