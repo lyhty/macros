@@ -2,26 +2,54 @@
 
 namespace Lyhty\Macros;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Arr as SArr;
+use Lyhty\Macronite\MacroServiceProvider as ServiceProvider;
 
-abstract class MacroServiceProvider extends ServiceProvider
+class MacroServiceProvider extends ServiceProvider
 {
+    const CONFIG = 'lyhty_macros';
+
     /**
      * The macro mappings for the application.
      *
      * @var array
      */
-    protected static array $macros = [];
-
-    /**
-     * Bootstrap closure based application macros.
-     *
-     * @return void
-     */
-    public function bootMacros(): void
-    {
-        //
-    }
+    protected static array $macros = [
+        \Illuminate\Database\Eloquent\Builder::class => [
+            'selectKey' => Builder\SelectKeyMacro::class,
+            'whereLike' => Builder\WhereLikeMacro::class,
+            'orWhereLike' => Builder\WhereLikeOrMacro::class,
+        ],
+        \Illuminate\Database\Query\Builder::class => [
+            'selectRawArr' => Builder\SelectRawArrMacro::class,
+        ],
+        \Illuminate\Support\Collection::class => [
+            'mergeMany' => Collection\MergeManyMacro::class,
+            'pluckMany' => Collection\PluckManyMacro::class,
+            'whereExtends' => Collection\WhereExtendsMacro::class,
+            'whereImplements' => Collection\WhereImplementsMacro::class,
+            'whereUses' => Collection\WhereUsesMacro::class,
+        ],
+        \Illuminate\Support\Arr::class => [
+            'associate' => Arr\AssociateMacro::class,
+            'combine' => Arr\CombineMacro::class,
+            'fillKeys' => Arr\FillKeysMacro::class,
+            'join' => Arr\JoinMacro::class,
+            'unzip' => Arr\UnzipMacro::class,
+            'zip' => Arr\ZipMacro::class,
+        ],
+        \Illuminate\Support\Str::class => [
+            'explodeReverse' => Str\ExplodeReverseMacro::class,
+            'wrap' => Str\WrapMacro::class,
+        ],
+        \Illuminate\Support\Stringable::class => [
+            'explodeReverse' => Stringable\ExplodeReverseMacro::class,
+            'wrap' => Stringable\WrapMacro::class,
+        ],
+        \Carbon\CarbonPeriod::class => [
+            'collect' => CarbonPeriod\CollectMacro::class,
+        ],
+    ];
 
     /**
      * Return the macros mappings array.
@@ -30,44 +58,35 @@ abstract class MacroServiceProvider extends ServiceProvider
      */
     public function getMacros(): array
     {
-        return static::$macros;
+        $config = SArr::get($this->app, sprintf('config.%s.disabled', static::CONFIG), []);
+
+        return collect(parent::getMacros())
+            ->map(function ($classes) use ($config) {
+                return collect($classes)->reject(
+                    fn ($class) => in_array($class, $config)
+                );
+            })->toArray();
     }
 
     /**
-     * Bootstrap application macros.
-     *
-     * @return void
+     * {@inheritDoc}
      */
     public function boot()
     {
-        foreach ($this->getMacros() as $macroable => $macros) {
-            collect($macros)
-                ->reject(
-                    fn ($class, $macro) => static_method_exists($macroable, 'hasMacro') &&
-                    $macroable::hasMacro($macro)
-                )
-                ->filter(fn ($class) => class_exists($class))
-                ->each(fn ($class, $macro) => $macroable::macro($macro, app($class)()));
-        }
+        $this->publishes([
+            __DIR__.'/../config/'.static::CONFIG.'.php' => config_path(static::CONFIG.'.php'),
+        ]);
 
-        static::bootMacros();
-    }
-}
-
-/**
- * Checks if static method exists.
- *
- * @param  object|string  $object_or_class
- * @param  string  $method
- * @return void
- */
-function static_method_exists($object_or_class, string $method)
-{
-    if (! method_exists($object_or_class, $method)) {
-        return false;
+        parent::boot();
     }
 
-    $reflection = new \ReflectionMethod($object_or_class, $method);
-
-    return $reflection->isStatic();
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->mergeConfigFrom(__DIR__.'/../config/'.static::CONFIG.'.php', static::CONFIG);
+    }
 }

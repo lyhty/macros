@@ -1,6 +1,6 @@
 <?php
 
-namespace Lyhty\Macros\Macros\Arr;
+namespace Lyhty\Macros\Arr;
 
 use Closure;
 

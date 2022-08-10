@@ -1,6 +1,6 @@
 <?php
 
-namespace Lyhty\Macros\Macros\CarbonPeriod;
+namespace Lyhty\Macros\CarbonPeriod;
 
 use Closure;
 

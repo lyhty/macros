@@ -1,6 +1,6 @@
 <?php
 
-namespace Lyhty\Macros\Macros\Stringable;
+namespace Lyhty\Macros\Stringable;
 
 use Closure;
 use Illuminate\Support\Str;

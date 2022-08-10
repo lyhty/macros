@@ -1,6 +1,6 @@
 <?php
 
-namespace Lyhty\Macros\Macros\Builder;
+namespace Lyhty\Macros\Builder;
 
 use Closure;
 

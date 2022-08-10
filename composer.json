@@ -19,6 +19,7 @@
         "php": "^7.4|^8.0",
         "illuminate/support": "^8.0",
         "illuminate/console": "^8.0",
+        "lyhty/macronite": "^1.0",
         "lyhty/support": ">=1.0"
     },
     "require-dev": {
@@ -40,7 +41,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Lyhty\\Macros\\LyhtyMacroServiceProvider"
+                "Lyhty\\Macros\\MacroServiceProvider"
             ]
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lyhty\Macros\Macros\Str;
+namespace Lyhty\Macros\Str;
 
 use Closure;
 

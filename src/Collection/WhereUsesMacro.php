@@ -1,6 +1,6 @@
 <?php
 
-namespace Lyhty\Macros\Macros\Collection;
+namespace Lyhty\Macros\Collection;
 
 use Closure;
 
