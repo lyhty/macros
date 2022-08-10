@@ -3,6 +3,7 @@
 namespace Lyhty\Macros;
 
 use Illuminate\Support\Arr as SArr;
+use Illuminate\Support\Collection;
 use Lyhty\Macronite\MacroServiceProvider as ServiceProvider;
 
 class MacroServiceProvider extends ServiceProvider
@@ -54,18 +55,13 @@ class MacroServiceProvider extends ServiceProvider
     /**
      * Return the macros mappings array.
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    public function getMacros(): array
+    protected function filterMacros(Collection $macros)
     {
         $config = SArr::get($this->app, sprintf('config.%s.disabled', static::CONFIG), []);
 
-        return collect(parent::getMacros())
-            ->map(function ($classes) use ($config) {
-                return collect($classes)->reject(
-                    fn ($class) => in_array($class, $config)
-                );
-            })->toArray();
+        return $macros->reject(fn ($class) => in_array($class, $config));
     }
 
     /**
