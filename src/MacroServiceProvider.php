@@ -3,7 +3,7 @@
 namespace Lyhty\Macros;
 
 use Illuminate\Support\Arr as SArr;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 use Lyhty\Macronite\MacroServiceProvider as ServiceProvider;
 
 class MacroServiceProvider extends ServiceProvider
@@ -57,7 +57,7 @@ class MacroServiceProvider extends ServiceProvider
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function filterMacros(Collection $macros)
+    protected function filterMacros(SupportCollection $macros)
     {
         $config = SArr::get($this->app, sprintf('config.%s.disabled', static::CONFIG), []);
 
