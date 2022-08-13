@@ -27,7 +27,7 @@ Here's a brief documentation on the macros the package provides.
   - [`selectRawArr`](#illuminatedatabasequerybuilderselectrawarr)
 - `Illuminate\Support\Collection`
   - [`mergeMany`](#illuminatesupportcollectionmergemany)
-  - [`pluckMany`](#illuminatesupportcollectionpluckmany)
+  - [`pick` (was `pluckMany`)](#illuminatesupportcollectionpick-was-illuminatesupportcollectionpluckmany)
   - [`whereExtends`](#illuminatesupportcollectionwhereextends)
   - [`whereImplements`](#illuminatesupportcollectionwhereimplements)
   - [`whereUses`](#illuminatesupportcollectionwhereuses)
@@ -113,14 +113,36 @@ $data = new Collection([1,2,3]);
 $data->mergeMany([4], [5], [6]); // [1, 2, 3, 4, 5, 6]
 ```
 
-### `Illuminate\Support\Collection::pluckMany`
+### `Illuminate\Support\Collection::pick (was Illuminate\Support\Collection::pluckMany)`
 
-Pluck several keys from the collection items.
+Pick several keys from the collection items. The first value should be an array of keys
+you want to pick up from the collection items. The second value determines whether keys
+will be preserved and in which format:
+
+- `Lyhty\Macros\Collection\PickMacro::PRESERVE_KEYS_FULL (>= 2)`:
+  - Keeps even the possibly nested values in their original depths.
+- `Lyhty\Macros\Collection\PickMacro::PRESERVE_KEYS_PARTIAL (1)`:
+  - Flattens the results while keeping the keys.
+- `Lyhty\Macros\Collection\PickMacro::PRESERVE_KEYS_NONE (0)`:
+  - No keys will be preserved
 
 ```php
 $data = User::query()->get();
 
-$data->pluckMany('id', 'name')->toArray(); // [["id" => 1, "name" => "Matti Suoraniemi"]]
+$data->pick(['id', 'name', 'metadata.loggedIn'])->toArray();
+// [[1, "Matti Suoraniemi", true], [2, "Foo Bar", false]]
+
+$data->pick(['id', 'name', 'metadata.loggedIn'], 1)->toArray();
+// [
+//   ["id" => 1, "name" => "Matti Suoraniemi", "loggedIn" => true],
+//   ["id" => 2, "name" => "Foo Bar", "loggedIn" => false]
+// ]
+
+$data->pick(['id', 'name', 'metadata.loggedIn'], 2)->toArray();
+// [
+//   ["id" => 1, "name" => "Matti Suoraniemi", "metadata" => ["loggedIn" => true]],
+//   ["id" => 2, "name" => "Foo Bar", "metadata" => ["loggedIn" => false]]
+// ]
 ```
 
 ### `Illuminate\Support\Collection::whereExtends`
