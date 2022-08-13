@@ -16,11 +16,11 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
-        "illuminate/support": "^8.0",
-        "illuminate/console": "^8.0",
+        "php": "^7.4 | ^8.0",
+        "illuminate/support": "^8.0 | ^9.0",
+        "illuminate/console": "^8.0 | ^9.0",
         "lyhty/macronite": "^1.1",
-        "lyhty/support": ">=1.0"
+        "lyhty/support": "^2.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",
