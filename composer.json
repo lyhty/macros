@@ -24,12 +24,20 @@
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
             "Lyhty\\Macros\\": "src"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Lyhty\\Macros\\Tests\\": "tests"
+        },
+        "files": [
+            "tests/constants.php"
+        ]
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
