@@ -5,6 +5,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lyhty/macros.svg?style=flat-square)](https://packagist.org/packages/lyhty/macros)
 [![License](https://img.shields.io/packagist/l/lyhty/macros.svg?style=flat-square)](https://packagist.org/packages/lyhty/macros)
 [![Total Downloads](https://img.shields.io/packagist/dt/lyhty/macros.svg?style=flat-square)](https://packagist.org/packages/lyhty/macros)
+[![StyleCI](https://github.styleci.io/repos/514416534/shield?branch=main)](https://github.styleci.io/repos/514416534?branch=main)
 
 This package provides some additional, convenient macros for you to use with your Laravel project.
 
