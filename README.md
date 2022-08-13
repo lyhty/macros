@@ -27,7 +27,7 @@ Here's a brief documentation on the macros the package provides.
   - [`selectRawArr`](#illuminatedatabasequerybuilderselectrawarr)
 - `Illuminate\Support\Collection`
   - [`mergeMany`](#illuminatesupportcollectionmergemany)
-  - [`pick` (was `pluckMany`)](#illuminatesupportcollectionpick-was-illuminatesupportcollectionpluckmany)
+  - [`pick` (was `pluckMany`)](#illuminatesupportcollectionpick-was-pluckmany)
   - [`whereExtends`](#illuminatesupportcollectionwhereextends)
   - [`whereImplements`](#illuminatesupportcollectionwhereimplements)
   - [`whereUses`](#illuminatesupportcollectionwhereuses)
@@ -113,7 +113,7 @@ $data = new Collection([1,2,3]);
 $data->mergeMany([4], [5], [6]); // [1, 2, 3, 4, 5, 6]
 ```
 
-### `Illuminate\Support\Collection::pick (was Illuminate\Support\Collection::pluckMany)`
+### `Illuminate\Support\Collection::pick` (was `pluckMany`)
 
 Pick several keys from the collection items. The first value should be an array of keys
 you want to pick up from the collection items. The second value determines whether keys
