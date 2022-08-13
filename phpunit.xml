@@ -25,9 +25,6 @@
     <testsuite name="Integration">
         <directory suffix="Test.php">./tests/Integration</directory>
     </testsuite>
-    <testsuite name="Feature">
-      <directory suffix="Test.php">./tests/Feature</directory>
-    </testsuite>
   </testsuites>
   <php>
     <env name="DB_CONNECTION" value="testing"/>
