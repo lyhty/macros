@@ -11,8 +11,14 @@ class JoinMacro
 {
     public function __invoke(): Closure
     {
-        return fn (array $array, string $glue, string $finalGlue = '') => (
-            collect($array)->join($glue, $finalGlue)
-        );
+        return function (array $array, string $glue, string $finalGlue = '') {
+            if ($finalGlue === '' || count($array) <= 1) {
+                return implode($glue, $array);
+            }
+
+            $final = array_pop($array);
+
+            return implode($glue, $array).$finalGlue.$final;
+        };
     }
 }

@@ -2,13 +2,12 @@
 
 namespace Lyhty\Macros;
 
-use Illuminate\Support\Arr as SArr;
 use Illuminate\Support\Collection as SupportCollection;
 use Lyhty\Macronite\MacroServiceProvider as ServiceProvider;
 
 class MacroServiceProvider extends ServiceProvider
 {
-    const CONFIG = 'lyhty_macros';
+    const CONFIG_NAME = 'lyhty_macros';
 
     /**
      * The macro mappings for the application.
@@ -26,7 +25,8 @@ class MacroServiceProvider extends ServiceProvider
         ],
         \Illuminate\Support\Collection::class => [
             'mergeMany' => Collection\MergeManyMacro::class,
-            'pluckMany' => Collection\PluckManyMacro::class,
+            'pick' => Collection\PickMacro::class,
+            'pluckMany' => Collection\PickMacro::class,
             'whereExtends' => Collection\WhereExtendsMacro::class,
             'whereImplements' => Collection\WhereImplementsMacro::class,
             'whereUses' => Collection\WhereUsesMacro::class,
@@ -59,7 +59,7 @@ class MacroServiceProvider extends ServiceProvider
      */
     protected function filterMacros(SupportCollection $macros)
     {
-        $config = SArr::get($this->app, sprintf('config.%s.disabled', static::CONFIG), []);
+        $config = $this->app->make('config')->get(sprintf('%s.disabled', static::CONFIG_NAME), []);
 
         return $macros->reject(fn ($class) => in_array($class, $config));
     }
@@ -70,7 +70,7 @@ class MacroServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/../config/'.static::CONFIG.'.php' => config_path(static::CONFIG.'.php'),
+            $this->getConfigPath() => config_path(static::CONFIG_NAME.'.php'),
         ]);
 
         parent::boot();
@@ -83,6 +83,11 @@ class MacroServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/'.static::CONFIG.'.php', static::CONFIG);
+        $this->mergeConfigFrom($this->getConfigPath(), static::CONFIG_NAME);
+    }
+
+    protected function getConfigPath(): string
+    {
+        return __DIR__.'/../config/'.static::CONFIG_NAME.'.php';
     }
 }
