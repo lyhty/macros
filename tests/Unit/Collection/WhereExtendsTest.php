@@ -21,7 +21,7 @@ class WhereExtendsTest extends MacroUnitTestCase
             new OverflowException,
             new RuntimeException,
             new JsonException,
-            new RangeException
+            new RangeException,
         ]);
 
         $this->assertContainsOnlyInstancesOf(

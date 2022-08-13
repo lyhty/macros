@@ -34,7 +34,7 @@ class WhereImplementsTest extends MacroUnitTestCase
         $collection = collect([
             JsonResponse::class,
             ResourceCollection::class,
-            AnonymousResourceCollection::class
+            AnonymousResourceCollection::class,
         ]);
 
         $result = $this->callMacro($collection, Countable::class);

@@ -3,8 +3,8 @@
 namespace Lyhty\Macros\Tests\Unit\Collection;
 
 use Illuminate\Support\Collection;
-use Lyhty\Macros\Tests\Unit\MacroUnitTestCase;
 use Lyhty\Macros\Collection\PickMacro as Macro;
+use Lyhty\Macros\Tests\Unit\MacroUnitTestCase;
 
 class PickTest extends MacroUnitTestCase
 {

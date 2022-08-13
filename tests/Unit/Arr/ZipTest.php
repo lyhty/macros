@@ -6,8 +6,6 @@ use Exception;
 use Illuminate\Support\Arr;
 use Lyhty\Macros\Tests\Unit\MacroUnitTestCase;
 
-use const Lyhty\Macros\Tests\ARR_ZIPPERS;
-
 class ZipTest extends MacroUnitTestCase
 {
     protected string $class = Arr::class;
@@ -16,7 +14,7 @@ class ZipTest extends MacroUnitTestCase
 
     public function testZippingArrays(): void
     {
-        foreach (ARR_ZIPPERS as $zipper) {
+        foreach ([':', '=>', 'BETWEEN', 3 * 10] as $zipper) {
             $array = $this->callStaticMacro(['foo' => 'bar', 'one' => 'two'], $zipper);
             $this->assertSame(["foo{$zipper}bar", "one{$zipper}two"], $array);
         }

@@ -34,10 +34,7 @@
     "autoload-dev": {
         "psr-4": {
             "Lyhty\\Macros\\Tests\\": "tests"
-        },
-        "files": [
-            "tests/constants.php"
-        ]
+        }
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
