@@ -8,6 +8,8 @@
 [![StyleCI](https://github.styleci.io/repos/514416534/shield)](https://github.styleci.io/repos/514416534)
 [![License](https://img.shields.io/packagist/l/lyhty/macros.svg?style=flat-square)](https://packagist.org/packages/lyhty/macros)
 
+<!-- CUTOFF -->
+
 This package provides some additional, convenient macros for you to use with your Laravel project.
 
 ## Installation
@@ -34,6 +36,7 @@ Here's a brief documentation on the macros the package provides.
   - [`whereImplements`](#illuminatesupportcollectionwhereimplements)
   - [`whereUses`](#illuminatesupportcollectionwhereuses)
 - `Illuminate\Support\Arr`
+  - [`associate`](#illuminatesupportarrassociate)
   - [`combine`](#illuminatesupportarrcombine)
   - [`fillKeys`](#illuminatesupportarrfillkeys)
   - [`join`](#illuminatesupportarrjoin)
