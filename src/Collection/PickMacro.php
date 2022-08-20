@@ -10,6 +10,12 @@ use Illuminate\Support\Str;
  */
 class PickMacro
 {
+    public const PRESERVE_KEYS_FULL = PICK_WITH_FULL_KEYS;
+
+    public const PRESERVE_KEYS_PARTIAL = PICK_WITH_PARTIAL_KEYS;
+
+    public const PRESERVE_KEYS_NONE = PICK_WITHOUT_KEYS;
+
     public function __invoke(): Closure
     {
         $macro = static::class;
