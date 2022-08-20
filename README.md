@@ -24,34 +24,36 @@ The package registers itself automatically.
 
 Here's a brief documentation on the macros the package provides.
 
-- `Illuminate\Database\Eloquent\Builder`
-  - [`selectKey`](#illuminatedatabaseeloquentbuilderselectkey)
-  - [`whereLike` & `orWhereLike`](#illuminatedatabaseeloquentbuilderwherelike--orwherelike)
-- `Illuminate\Database\Query\Builder`
-  - [`selectRawArr`](#illuminatedatabasequerybuilderselectrawarr)
-- `Illuminate\Support\Collection`
-  - [`mergeMany`](#illuminatesupportcollectionmergemany)
-  - [`pick` (was `pluckMany`)](#illuminatesupportcollectionpick-was-pluckmany)
-  - [`whereExtends`](#illuminatesupportcollectionwhereextends)
-  - [`whereImplements`](#illuminatesupportcollectionwhereimplements)
-  - [`whereUses`](#illuminatesupportcollectionwhereuses)
-- `Illuminate\Support\Arr`
-  - [`associate`](#illuminatesupportarrassociate)
-  - [`combine`](#illuminatesupportarrcombine)
-  - [`fillKeys`](#illuminatesupportarrfillkeys)
-  - [`join`](#illuminatesupportarrjoin)
-  - [`zip`](#illuminatesupportarrzip)
-  - [`unzip`](#illuminatesupportarrunzip)
-- `Illuminate\Support\Str`
-  - [`explodeReverse`](#illuminatesupportstrexplodereverse)
-  - [`wrap`](#illuminatesupportstrwrap)
-- `Illuminate\Support\Stringable`
-  - [`explodeReverse`](#illuminatesupportstringableexplodereverse)
-  - [`wrap`](#illuminatesupportstringablewrap)
-- `Carbon\CarbonPeriod`
-  - [`collect`](#carboncarbonperiodcollect)
+- [`Illuminate\Database\Eloquent\Builder`](#illuminatedatabaseeloquentbuilder)
+  - [`selectKey`](#builderselectkey)
+  - [`whereLike` & `orWhereLike`](#builderwherelike--orwherelike)
+- [`Illuminate\Database\Query\Builder`](#illuminatedatabasequerybuilder)
+  - [`selectRawArr`](#builderselectrawarr)
+- [`Illuminate\Support\Collection`](#illuminatesupportcollection)
+  - [`mergeMany`](#collectionmergemany)
+  - [`pick` (was `pluckMany`)](#collectionpick-was-pluckmany)
+  - [`whereExtends`](#collectionwhereextends)
+  - [`whereImplements`](#collectionwhereimplements)
+  - [`whereUses`](#collectionwhereuses)
+- [`Illuminate\Support\Arr`](#illuminatesupportarr)
+  - [`associate`](#arrassociate)
+  - [`combine`](#arrcombine)
+  - [`fillKeys`](#arrfillkeys)
+  - [`join`](#arrjoin)
+  - [`zip`](#arrzip)
+  - [`unzip`](#arrunzip)
+- [`Illuminate\Support\Str`](#illuminatesupportstr)
+  - [`explodeReverse`](#strexplodereverse)
+  - [`wrap`](#strwrap)
+- [`Illuminate\Support\Stringable`](#illuminatesupportstringable)
+  - [`explodeReverse`](#stringableexplodereverse)
+  - [`wrap`](#stringablewrap)
+- [`Carbon\CarbonPeriod`](#carboncarbonperiod)
+  - [`collect`](#carbonperiodcollect)
 
-### `Illuminate\Database\Eloquent\Builder::selectKey`
+### `Illuminate\Database\Eloquent\Builder`
+
+#### `Builder::selectKey`
 
 Select the key of the model in the query (uses Model's `getKey` method).
 
@@ -61,7 +63,9 @@ $query = User::query()->selectKey();
 $query->toSql() // "select `id` from `users`"
 ```
 
-### `Illuminate\Database\Eloquent\Builder::whereLike` & `orWhereLike`
+### `Illuminate\Database\Query\Builder`
+
+#### `Builder::whereLike` & `orWhereLike`
 
 ```php
 $query = User::query()
@@ -91,7 +95,7 @@ $query->toSql();
 // ? being "Xbox"
 ```
 
-### `Illuminate\Database\Query\Builder::selectRawArr`
+#### `Builder::selectRawArr`
 
 Add raw select statements as an array, instead of as a one ugly string (`selectRaw`).
 
@@ -108,7 +112,9 @@ $query = User::query()->selectRaw('concat(`id`, "-", `name`) as id_name, concat(
 // 🤢
 ```
 
-### `Illuminate\Support\Collection::mergeMany`
+### `Illuminate\Support\Collection`
+
+#### `Collection::mergeMany`
 
 Merge multiple arrays/collections to the collection in one go.
 
@@ -118,7 +124,7 @@ $data = new Collection([1,2,3]);
 $data->mergeMany([4], [5], [6]); // [1, 2, 3, 4, 5, 6]
 ```
 
-### `Illuminate\Support\Collection::pick` (was `pluckMany`)
+#### `Collection::pick` (was `pluckMany`)
 
 Pick several keys from the collection items. The first value should be an array of keys
 you want to pick up from the collection items. The second value determines whether keys
@@ -150,7 +156,7 @@ $data->pick(['id', 'name', 'metadata.loggedIn'], 2)->toArray();
 // ]
 ```
 
-### `Illuminate\Support\Collection::whereExtends`
+#### `Collection::whereExtends`
 
 Filter classes and/or objects that extend the given class.
 
@@ -167,7 +173,7 @@ $data = new Collection([
 $data->whereExtends(Model::class)->count(); // 4
 ```
 
-### `Illuminate\Support\Collection::whereImplements`
+#### `Collection::whereImplements`
 
 Filter classes and/or objects that implement the given interface.
 
@@ -184,7 +190,7 @@ $data = new Collection([
 $data->whereImplements(PlayableOnConsole::class)->toArray(); // ["App\Models\Game"]
 ```
 
-### `Illuminate\Support\Collection::whereUses`
+#### `Collection::whereUses`
 
 Filter classes and/or objects that use the given trait.
 
@@ -201,7 +207,9 @@ $data = new Collection([
 $data->whereUses(Notifiable::class)->toArray(); // ["App\Models\User"]
 ```
 
-### `Illuminate\Support\Arr::associate`
+### `Illuminate\Support\Arr`
+
+#### `Arr::associate`
 
 Converts an array into a fully associative array by converting any values with an integer key
 to the value being the key filled with the given fill value. Values that have a string key already
@@ -214,7 +222,7 @@ Arr::associate(['foo', 'bar' => []], fn () => Arr::random(['foo', 'bar'])) // ["
 Arr::associate([fn () => Str::reverse('foo'), 'bar' => []]) // ["oof" => null, "bar" => []]
 ```
 
-### `Illuminate\Support\Arr::combine`
+#### `Arr::combine`
 
 Similar to `array_combine`, but allows to have more keys than values. Keys without value will be set
 as null.
@@ -224,7 +232,7 @@ Arr::combine(['foo', 'zoo'], ["bar", "gar"]) // ["foo" => "bar", "zoo" => "gar"]
 Arr::combine(['foo', 'zoo'], ["bar"]) // ["foo" => "bar", "zoo" => null]
 ```
 
-### `Illuminate\Support\Arr::fillKeys`
+#### `Arr::fillKeys`
 
 Fills given keys with given value. You can also set that only keys that already exist in the array
 can become filled. In other words, if the key `foo` is to be filled with value `bar`, but the key
@@ -238,7 +246,7 @@ Arr::fillKeys($array, ['foo', 'zoo', 'boo'], null) // ["foo" => null, "zoo" => n
 Arr::fillKeys($array, ['foo', 'zoo', 'boo'], null, true) // ["foo" => null, "zoo" => null]
 ```
 
-### `Illuminate\Support\Arr::join`
+#### `Arr::join`
 
 Collection's nice join method brought to Arr.
 
@@ -246,7 +254,7 @@ Collection's nice join method brought to Arr.
 Arr::join(['foo', 'bar', 'zoo'], ', ', ' and ') // "foo, bar and zoo"
 ```
 
-### `Illuminate\Support\Arr::zip`
+#### `Arr::zip`
 
 Zips the key and value together with the given zipper.
 
@@ -254,7 +262,7 @@ Zips the key and value together with the given zipper.
 Arr::zip(['foo' => 'bar', 'zoo' => 'gar'], ':') // ["foo:bar", "zoo:gar"]
 ```
 
-### `Illuminate\Support\Arr::unzip`
+#### `Arr::unzip`
 
 Unzips keys to key and value with the given zipper.
 
@@ -262,7 +270,7 @@ Unzips keys to key and value with the given zipper.
 Arr::unzip(['foo:bar', 'zoo:gar'], ':') // ["foo" => "bar", "zoo" => "gar"]
 ```
 
-### `Illuminate\Support\Str::explodeReverse`
+#### `Str::explodeReverse`
 
 Explodes the given string from the end instead of the start and returns it as
 a `Illuminate\Support\Collection` class instance.
@@ -274,8 +282,9 @@ Str::explodeReverse('games.platforms.name', '.', 2)->toArray() // ['games.platfo
 explode('.', 'games.platforms.name', 2) // ['games', 'platforms.name']
 ```
 
+### `Illuminate\Support\Str`
 
-### `Illuminate\Support\Str::wrap`
+#### `Str::wrap`
 
 Wraps the string with given character(s).
 
@@ -285,7 +294,9 @@ Str::wrap('bar', '<', '>') // "<bar>"
 Str::wrap('!zoo', '!') // "!zoo!"
 ```
 
-### `Illuminate\Support\Stringable::explodeReverse`
+### `Illuminate\Support\Stringable`
+
+#### `Stringable::explodeReverse`
 
 See [Illuminate\Support\Str::explodeReverse](#illuminatesupportstrexplodereverse)
 
@@ -296,7 +307,7 @@ Str::of('games.platforms.name')->explodeReverse('.', 2)->toArray() // ['games.pl
 Str::of('games.platforms.name')->explode('.', 2)->toArray() // ['games', 'platforms.name']
 ```
 
-### `Illuminate\Support\Stringable::wrap`
+#### `Stringable::wrap`
 
 See [Illuminate\Support\Str::wrap](#illuminatesupportstrwrap)
 
@@ -306,7 +317,9 @@ See [Illuminate\Support\Str::wrap](#illuminatesupportstrwrap)
 (string) Str::of('!zoo')->upper()->wrap('!') // "!ZOO!"
 ```
 
-### `Carbon\CarbonPeriod::collect`
+### `Carbon\CarbonPeriod`
+
+#### `CarbonPeriod::collect`
 
 ```php
 $dates = CarbonPeriod::between('yesterday', 'today')->collect();
