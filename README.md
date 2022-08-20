@@ -130,11 +130,11 @@ Pick several keys from the collection items. The first value should be an array 
 you want to pick up from the collection items. The second value determines whether keys
 will be preserved and in which format:
 
-- `Lyhty\Macros\Collection\PickMacro::PRESERVE_KEYS_FULL (>= 2)`:
+- `PICK_WITH_FULL_KEYS (>= 2)`:
   - Keeps even the possibly nested values in their original depths.
-- `Lyhty\Macros\Collection\PickMacro::PRESERVE_KEYS_PARTIAL (1)`:
+- `PICK_WITH_PARTIAL_KEYS (1)`:
   - Flattens the results while keeping the keys.
-- `Lyhty\Macros\Collection\PickMacro::PRESERVE_KEYS_NONE (0)`:
+- `PICK_WITHOUT_KEYS (0)`:
   - No keys will be preserved
 
 ```php

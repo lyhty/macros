@@ -10,20 +10,11 @@ use Illuminate\Support\Str;
  */
 class PickMacro
 {
-    public const PRESERVE_KEYS_FULL = 2;
-
-    public const PRESERVE_KEYS_PARTIAL = 1;
-
-    public const PRESERVE_KEYS_NONE = 0;
-
     public function __invoke(): Closure
     {
         $macro = static::class;
 
-        return function (
-            array $attrs,
-            int $preserveKeys = \Lyhty\Macros\Collection\PickMacro::PRESERVE_KEYS_NONE
-        ) use ($macro) {
+        return function (array $attrs, int $preserveKeys = PICK_WITHOUT_KEYS) use ($macro) {
             $final = array_pad([], $this->count(), []);
 
             foreach ($attrs as $attrIndex => $attribute) {
@@ -40,13 +31,13 @@ class PickMacro
     public static function resolveKey($itemIndex, $attributeIndex, $attribute, int $preserveKeys)
     {
         switch ($preserveKeys) {
-            case static::PRESERVE_KEYS_NONE:
+            case PICK_WITHOUT_KEYS:
                 $last = $attributeIndex;
                 break;
-            case static::PRESERVE_KEYS_PARTIAL:
+            case PICK_WITH_PARTIAL_KEYS:
                 $last = Str::afterLast($attribute, '.');
                 break;
-            case static::PRESERVE_KEYS_FULL:
+            case PICK_WITH_FULL_KEYS:
             default:
                 $last = $attribute;
                 break;

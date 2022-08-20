@@ -3,7 +3,6 @@
 namespace Lyhty\Macros\Tests\Unit\Collection;
 
 use Illuminate\Support\Collection;
-use Lyhty\Macros\Collection\PickMacro as Macro;
 use Lyhty\Macros\Tests\Unit\MacroUnitTestCase;
 
 class PickTest extends MacroUnitTestCase
@@ -38,7 +37,7 @@ class PickTest extends MacroUnitTestCase
             ['name' => 'Foo Bar', 'logged_in' => false],
             ['name' => 'Goo Bar', 'logged_in' => true],
             ['name' => 'Noo Bar', 'logged_in' => null],
-        ], $this->callMacro($collection, ['name', 'metadata.logged_in'], Macro::PRESERVE_KEYS_PARTIAL)->toArray());
+        ], $this->callMacro($collection, ['name', 'metadata.logged_in'], PICK_WITH_PARTIAL_KEYS)->toArray());
     }
 
     public function testSelectingWithFullKeys()
@@ -53,6 +52,6 @@ class PickTest extends MacroUnitTestCase
             ['name' => 'Foo Bar', 'metadata' => ['logged_in' => false]],
             ['name' => 'Goo Bar', 'metadata' => ['logged_in' => true]],
             ['name' => 'Noo Bar', 'metadata' => ['logged_in' => null]],
-        ], $this->callMacro($collection, ['name', 'metadata.logged_in'], Macro::PRESERVE_KEYS_FULL)->toArray());
+        ], $this->callMacro($collection, ['name', 'metadata.logged_in'], PICK_WITH_FULL_KEYS)->toArray());
     }
 }

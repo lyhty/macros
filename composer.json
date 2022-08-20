@@ -29,7 +29,10 @@
     "autoload": {
         "psr-4": {
             "Lyhty\\Macros\\": "src"
-        }
+        },
+        "files": [
+            "src/constants.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
