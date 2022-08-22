@@ -104,6 +104,7 @@ $query = User::query()->selectRawArr([
     'concat(`id`, "-", `name`) as id_name',
     'concat(`email`, "-", `name`) as email_name'
 ]);
+// 🤩
 
 $query->first()->toArray() // ["id_name" => "1-Matti", "email_name" => "matti@suoraniemi.com-Matti"]
 
