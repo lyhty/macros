@@ -303,7 +303,7 @@ Str::wrap('!zoo', '!') // "!zoo!"
 
 #### `Stringable::explodeReverse`
 
-> ⚠️ This macro relies on Str::explodeReverse macro. If you want to disable that macro, this macro will no longer function.
+> ⚠️ This macro relies on `Str::explodeReverse` macro. If you want to disable that macro, this macro will no longer function.
 
 See [Illuminate\Support\Str::explodeReverse](#illuminatesupportstrexplodereverse)
 
@@ -316,7 +316,7 @@ Str::of('games.platforms.name')->explode('.', 2)->toArray() // ['games', 'platfo
 
 #### `Stringable::wrap`
 
-> ⚠️ This macro relies on Str::wrap macro. If you want to disable that macro, this macro will no longer function.
+> ⚠️ This macro relies on `Str::wrap` macro. If you want to disable that macro, this macro will no longer function.
 
 See [Illuminate\Support\Str::wrap](#illuminatesupportstrwrap)
 
