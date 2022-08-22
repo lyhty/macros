@@ -69,6 +69,8 @@ $query->toSql() // "select `id` from `users`"
 
 > ⚠️ This macro relies on `Str::explodeReverse` macro. If you want to disable the latter macro, this macro will no longer function.
 
+> ⚠️ The `Builder::orWhereLike` macro relies on `Builder::whereLike` macro. If you want to disable the `whereLike` macro, be sure to disable the `orWhereLike` macro as well.
+
 ```php
 $query = User::query()
     ->whereLike('name', 'Matti Suo', 'right')
