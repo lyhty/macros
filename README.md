@@ -332,4 +332,4 @@ $dates->first()->toDateTimeString() // "2022-06-14 00:00:00"
 
 ## License
 
-Lyhty Macros is open-sourced software licensed under the [MIT license](LICENSE.md).
+Lyhty Macros is open-sourced software licensed under the [MIT license](LICENSE).
