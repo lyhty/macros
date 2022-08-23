@@ -13,7 +13,7 @@ class ImplodeMacro
 {
     public function __invoke(): Closure
     {
-        return function ($array, $separator = ""): Stringable {
+        return function ($array, $separator = ''): Stringable {
             return Str::of(implode($separator, $array));
         };
     }
