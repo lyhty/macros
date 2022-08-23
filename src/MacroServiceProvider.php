@@ -35,6 +35,7 @@ class MacroServiceProvider extends ServiceProvider
             'associate' => Arr\AssociateMacro::class,
             'combine' => Arr\CombineMacro::class,
             'fillKeys' => Arr\FillKeysMacro::class,
+            'implode' => Arr\ImplodeMacro::class,
             'join' => Arr\JoinMacro::class,
             'unzip' => Arr\UnzipMacro::class,
             'zip' => Arr\ZipMacro::class,

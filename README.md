@@ -39,6 +39,7 @@ Here's a brief documentation on the macros the package provides.
   - [`associate`](#arrassociate)
   - [`combine`](#arrcombine)
   - [`fillKeys`](#arrfillkeys)
+  - [`implode`](#arrimplode)
   - [`join`](#arrjoin)
   - [`zip`](#arrzip)
   - [`unzip`](#arrunzip)
@@ -60,7 +61,7 @@ Select the key of the model in the query (uses Model's `getKey` method).
 ```php
 $query = User::query()->selectKey();
 
-$query->toSql() // "select `id` from `users`"
+$query->toSql(); // "select `id` from `users`"
 ```
 
 ### `Illuminate\Database\Query\Builder`
@@ -110,7 +111,7 @@ $query = User::query()->selectRawArr([
 ]);
 // 🤩
 
-$query->first()->toArray() // ["id_name" => "1-Matti", "email_name" => "matti@suoraniemi.com-Matti"]
+$query->first()->toArray(); // ["id_name" => "1-Matti", "email_name" => "matti@suoraniemi.com-Matti"]
 
 // Instead of:
 $query = User::query()->selectRaw('concat(`id`, "-", `name`) as id_name, concat(`email`, "-", `name`) as email_name');
@@ -221,10 +222,10 @@ to the value being the key filled with the given fill value. Values that have a 
 won't be touched.
 
 ```php
-Arr::associate(['foo']) // ["foo" => null]
-Arr::associate(['foo', 'bar' => []], []) // ["foo" => [], "bar" => []]
-Arr::associate(['foo', 'bar' => []], fn () => Arr::random(['foo', 'bar'])) // ["foo" => "foo", "bar" => []]
-Arr::associate([fn () => Str::reverse('foo'), 'bar' => []]) // ["oof" => null, "bar" => []]
+Arr::associate(['foo']); // ["foo" => null]
+Arr::associate(['foo', 'bar' => []], []); // ["foo" => [], "bar" => []]
+Arr::associate(['foo', 'bar' => []], fn () => Arr::random(['foo', 'bar'])); // ["foo" => "foo", "bar" => []]
+Arr::associate([fn () => Str::reverse('foo'), 'bar' => []]); // ["oof" => null, "bar" => []]
 ```
 
 #### `Arr::combine`
@@ -233,8 +234,8 @@ Similar to `array_combine`, but allows to have more keys than values. Keys witho
 as null.
 
 ```php
-Arr::combine(['foo', 'zoo'], ["bar", "gar"]) // ["foo" => "bar", "zoo" => "gar"]
-Arr::combine(['foo', 'zoo'], ["bar"]) // ["foo" => "bar", "zoo" => null]
+Arr::combine(['foo', 'zoo'], ["bar", "gar"]); // ["foo" => "bar", "zoo" => "gar"]
+Arr::combine(['foo', 'zoo'], ["bar"]); // ["foo" => "bar", "zoo" => null]
 ```
 
 #### `Arr::fillKeys`
@@ -246,9 +247,19 @@ can become filled. In other words, if the key `foo` is to be filled with value `
 ```php
 $array = ['foo' => 'bar', 'zoo' => 'gar'];
 
-Arr::fillKeys($array, ['foo', 'zoo'], null) // ["foo" => null, "zoo" => null]
-Arr::fillKeys($array, ['foo', 'zoo', 'boo'], null) // ["foo" => null, "zoo" => null, "boo" => null]
-Arr::fillKeys($array, ['foo', 'zoo', 'boo'], null, true) // ["foo" => null, "zoo" => null]
+Arr::fillKeys($array, ['foo', 'zoo'], null); // ["foo" => null, "zoo" => null]
+Arr::fillKeys($array, ['foo', 'zoo', 'boo'], null); // ["foo" => null, "zoo" => null, "boo" => null]
+Arr::fillKeys($array, ['foo', 'zoo', 'boo'], null, true); // ["foo" => null, "zoo" => null]
+```
+
+#### `Arr::implode`
+
+Implodes given array with given separator to a `\Illuminate\Support\Stringable` instance.
+
+```php
+$array = ['foo', 'bar'];
+
+(string) Arr::implode($array, ' ')->upper(); // "FOO BAR"
 ```
 
 #### `Arr::join`
@@ -256,7 +267,7 @@ Arr::fillKeys($array, ['foo', 'zoo', 'boo'], null, true) // ["foo" => null, "zoo
 Collection's nice join method brought to Arr.
 
 ```php
-Arr::join(['foo', 'bar', 'zoo'], ', ', ' and ') // "foo, bar and zoo"
+Arr::join(['foo', 'bar', 'zoo'], ', ', ' and '); // "foo, bar and zoo"
 ```
 
 #### `Arr::zip`
@@ -264,7 +275,7 @@ Arr::join(['foo', 'bar', 'zoo'], ', ', ' and ') // "foo, bar and zoo"
 Zips the key and value together with the given zipper.
 
 ```php
-Arr::zip(['foo' => 'bar', 'zoo' => 'gar'], ':') // ["foo:bar", "zoo:gar"]
+Arr::zip(['foo' => 'bar', 'zoo' => 'gar'], ':'); // ["foo:bar", "zoo:gar"]
 ```
 
 #### `Arr::unzip`
@@ -272,7 +283,7 @@ Arr::zip(['foo' => 'bar', 'zoo' => 'gar'], ':') // ["foo:bar", "zoo:gar"]
 Unzips keys to key and value with the given zipper.
 
 ```php
-Arr::unzip(['foo:bar', 'zoo:gar'], ':') // ["foo" => "bar", "zoo" => "gar"]
+Arr::unzip(['foo:bar', 'zoo:gar'], ':'); // ["foo" => "bar", "zoo" => "gar"]
 ```
 
 #### `Str::explodeReverse`
@@ -281,10 +292,10 @@ Explodes the given string from the end instead of the start and returns it as
 a `Illuminate\Support\Collection` class instance.
 
 ```php
-Str::explodeReverse('games.platforms.name', '.', 2)->toArray() // ['games.platforms', 'name']
+Str::explodeReverse('games.platforms.name', '.', 2)->toArray(); // ['games.platforms', 'name']
 
 // Whereas normal explode function would do:
-explode('.', 'games.platforms.name', 2) // ['games', 'platforms.name']
+explode('.', 'games.platforms.name', 2); // ['games', 'platforms.name']
 ```
 
 ### `Illuminate\Support\Str`
@@ -294,9 +305,9 @@ explode('.', 'games.platforms.name', 2) // ['games', 'platforms.name']
 Wraps the string with given character(s).
 
 ```php
-Str::wrap('foo', ':') // ":foo:"
-Str::wrap('bar', '<', '>') // "<bar>"
-Str::wrap('!zoo', '!') // "!zoo!"
+Str::wrap('foo', ':'); // ":foo:"
+Str::wrap('bar', '<', '>'); // "<bar>"
+Str::wrap('!zoo', '!'); // "!zoo!"
 ```
 
 ### `Illuminate\Support\Stringable`
@@ -308,10 +319,10 @@ Str::wrap('!zoo', '!') // "!zoo!"
 See [Illuminate\Support\Str::explodeReverse](#illuminatesupportstrexplodereverse)
 
 ```php
-Str::of('games.platforms.name')->explodeReverse('.', 2)->toArray() // ['games.platforms', 'name']
+Str::of('games.platforms.name')->explodeReverse('.', 2)->toArray(); // ['games.platforms', 'name']
 
 // Whereas normal explode function would do:
-Str::of('games.platforms.name')->explode('.', 2)->toArray() // ['games', 'platforms.name']
+Str::of('games.platforms.name')->explode('.', 2)->toArray(); // ['games', 'platforms.name']
 ```
 
 #### `Stringable::wrap`
@@ -321,9 +332,9 @@ Str::of('games.platforms.name')->explode('.', 2)->toArray() // ['games', 'platfo
 See [Illuminate\Support\Str::wrap](#illuminatesupportstrwrap)
 
 ```php
-(string) Str::of('foo')->upper()->wrap(':') // ":FOO:"
-(string) Str::of('bar')->upper()->wrap('<', '>') // "<BAR>"
-(string) Str::of('!zoo')->upper()->wrap('!') // "!ZOO!"
+(string) Str::of('foo')->upper()->wrap(':'); // ":FOO:"
+(string) Str::of('bar')->upper()->wrap('<', '>'); // "<BAR>"
+(string) Str::of('!zoo')->upper()->wrap('!'); // "!ZOO!"
 ```
 
 ### `Carbon\CarbonPeriod`
@@ -333,7 +344,7 @@ See [Illuminate\Support\Str::wrap](#illuminatesupportstrwrap)
 ```php
 $dates = CarbonPeriod::between('yesterday', 'today')->collect();
 
-$dates->first()->toDateTimeString() // "2022-06-14 00:00:00"
+$dates->first()->toDateTimeString(); // "2022-06-14 00:00:00"
 ```
 
 ## License
