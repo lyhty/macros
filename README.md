@@ -3,6 +3,7 @@
 </p>
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lyhty/macros.svg?style=flat-square)](https://packagist.org/packages/lyhty/macros)
+[![PHP](https://img.shields.io/packagist/php-v/lyhty/macros?style=flat-square)](https://packagist.org/packages/lyhty/macros)
 [![Total Downloads](https://img.shields.io/packagist/dt/lyhty/macros.svg?style=flat-square)](https://packagist.org/packages/lyhty/macros)
 [![Tests](https://img.shields.io/github/workflow/status/lyhty/macros/Run%20tests?style=flat-square)](https://github.com/lyhty/macros/actions/workflows/php.yml)
 [![StyleCI](https://github.styleci.io/repos/514416534/shield)](https://github.styleci.io/repos/514416534)
