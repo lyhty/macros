@@ -71,7 +71,7 @@ class MacroServiceProvider extends ServiceProvider
             ->keys()
             ->all();
 
-        return $macros->reject(fn ($class) => in_array($class, $disabled));
+        return $macros->diff($disabled);
     }
 
     /**
