@@ -9,6 +9,7 @@ use Lyhty\Macros\Tests\TestCase;
 
 /**
  * @runTestsInSeparateProcesses
+ *
  * @preserveGlobalState disabled
  */
 class DisableTest extends TestCase

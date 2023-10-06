@@ -60,9 +60,18 @@ class MacroServiceProvider extends ServiceProvider
      */
     protected function filterMacros(SupportCollection $macros)
     {
-        $config = $this->app->make('config')->get(sprintf('%s.disabled', static::CONFIG_NAME), []);
+        $config = $this->app->make('config');
 
-        return $macros->reject(fn ($class) => in_array($class, $config));
+        // Let's convert the potentially mixed array
+        // from: ['MacroClass', 'AnotherMacroClass' => false, 'YetAnotherMacroClass' => true]
+        // to: ['MacroClass' => true, 'AnotherMacroClass' => false, 'YetAnotherMacroClass' => true]
+        $disabled = collect($config->get(sprintf('%s.disabled', static::CONFIG_NAME), []))
+            ->mapWithKeys(fn ($value, $key) => is_numeric($key) ? [$value => true] : [$key => $value])
+            ->filter(fn ($value) => is_bool($value) ? $value : true)
+            ->keys()
+            ->all();
+
+        return $macros->reject(fn ($class) => in_array($class, $disabled));
     }
 
     /**
