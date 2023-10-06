@@ -3,8 +3,8 @@
 return [
 
     'disabled' => [
-        Lyhty\Macros\Arr\AssociateMacro::class,
-        Lyhty\Macros\Str\ExplodeReverseMacro::class,
+        'Illuminate\Support\Arr@associate' => true,
+        'Illuminate\Support\Str@explodeReverse',
     ],
 
 ];

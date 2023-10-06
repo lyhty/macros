@@ -9,7 +9,7 @@ class WrapTest extends MacroUnitTestCase
 {
     protected string $class = Str::class;
 
-    protected string $macro = 'wrap';
+    protected string $macro = 'wrapWith';
 
     public function testSimpleWrapping(): void
     {

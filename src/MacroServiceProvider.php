@@ -11,8 +11,6 @@ class MacroServiceProvider extends ServiceProvider
 
     /**
      * The macro mappings for the application.
-     *
-     * @var array
      */
     protected static array $macros = [
         \Illuminate\Database\Eloquent\Builder::class => [
@@ -42,11 +40,11 @@ class MacroServiceProvider extends ServiceProvider
         ],
         \Illuminate\Support\Str::class => [
             'explodeReverse' => Str\ExplodeReverseMacro::class,
-            'wrap' => Str\WrapMacro::class,
+            'wrapWith' => Str\WrapWithMacro::class,
         ],
         \Illuminate\Support\Stringable::class => [
             'explodeReverse' => Stringable\ExplodeReverseMacro::class,
-            'wrap' => Stringable\WrapMacro::class,
+            'wrapWith' => Stringable\WrapWithMacro::class,
         ],
         \Carbon\CarbonPeriod::class => [
             'collect' => CarbonPeriod\CollectMacro::class,
@@ -58,20 +56,35 @@ class MacroServiceProvider extends ServiceProvider
      *
      * @return \Illuminate\Support\Collection
      */
-    protected function filterMacros(SupportCollection $macros)
+    protected function filterMacros(SupportCollection $macros, string $macroableClass)
+    {
+        $disabled = $this->explodeDisabled();
+
+        if (! isset($disabled[$macroableClass])) {
+            return $macros;
+        }
+
+        $disabled = $disabled[$macroableClass]
+            ->filter(fn ($value) => $value[2])
+            ->map(fn ($value) => $value[1])
+            ->all();
+
+        return $macros->reject(fn ($value, $key) => in_array($key, $disabled));
+    }
+
+    protected function explodeDisabled(): SupportCollection
     {
         $config = $this->app->make('config');
 
-        // Let's convert the potentially mixed array
-        // from: ['MacroClass', 'AnotherMacroClass' => false, 'YetAnotherMacroClass' => true]
-        // to: ['MacroClass' => true, 'AnotherMacroClass' => false, 'YetAnotherMacroClass' => true]
-        $disabled = collect($config->get(sprintf('%s.disabled', static::CONFIG_NAME), []))
-            ->mapWithKeys(fn ($value, $key) => is_numeric($key) ? [$value => true] : [$key => $value])
-            ->filter(fn ($value) => is_bool($value) ? $value : true)
-            ->keys()
-            ->all();
+        return collect($config->get(sprintf('%s.disabled', static::CONFIG_NAME), []))
+            ->map(function ($value, $key) {
+                $disabled = is_bool($value) ? $value : true;
+                [$class, $method] = explode('@', is_numeric($key) ? $value : $key, 2);
 
-        return $macros->diff($disabled);
+                return [$class, $method, $disabled];
+            })
+            ->values()
+            ->groupBy(0);
     }
 
     /**

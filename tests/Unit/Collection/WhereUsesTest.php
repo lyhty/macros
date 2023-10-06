@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\CollectsResources;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 use Lyhty\Macros\Tests\Unit\MacroUnitTestCase;
@@ -22,7 +23,7 @@ class WhereUsesTest extends MacroUnitTestCase
         $collection = collect([
             new JsonResponse(),
             new ResourceCollection([]),
-            new AnonymousResourceCollection([], Collection::class),
+            new AnonymousResourceCollection([], JsonResource::class),
         ]);
 
         $this->assertContainsOnlyInstancesOf(

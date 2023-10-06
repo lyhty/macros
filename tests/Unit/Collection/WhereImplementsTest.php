@@ -5,6 +5,7 @@ namespace Lyhty\Macros\Tests\Unit\Collection;
 use Countable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Collection;
 use Lyhty\Macros\Tests\Unit\MacroUnitTestCase;
@@ -20,7 +21,7 @@ class WhereImplementsTest extends MacroUnitTestCase
         $collection = collect([
             new JsonResponse,
             new ResourceCollection([]),
-            new AnonymousResourceCollection([], Collection::class),
+            new AnonymousResourceCollection([], JsonResource::class),
         ]);
 
         $this->assertContainsOnlyInstancesOf(

@@ -19,7 +19,7 @@
         "php": "^8.0",
         "illuminate/support": "^9.0 || ^10.0",
         "illuminate/console": "^9.0 || ^10.0",
-        "lyhty/macronite": "dev-main || ^1.1",
+        "lyhty/macronite": "dev-main || ^2.0",
         "lyhty/support": "dev-main || ^2.0"
     },
     "require-dev": {

@@ -8,12 +8,12 @@ use Illuminate\Support\Str;
 /**
  * @mixin \Illuminate\Support\Stringable
  */
-class WrapMacro
+class WrapWithMacro
 {
     public function __invoke(): Closure
     {
         return function ($start, $finish = null) {
-            return new static(Str::wrap($this->value, $start, $finish));
+            return new static(Str::wrapWith($this->value, $start, $finish));
         };
     }
 }

@@ -7,7 +7,7 @@ use Closure;
 /**
  * @mixin \Illuminate\Support\Str
  */
-class WrapMacro
+class WrapWithMacro
 {
     public function __invoke(): Closure
     {

@@ -301,14 +301,22 @@ explode('.', 'games.platforms.name', 2); // ['games', 'platforms.name']
 
 ### `Illuminate\Support\Str`
 
-#### `Str::wrap`
+#### `Str::wrapWith`
 
 Wraps the string with given character(s).
 
 ```php
-Str::wrap('foo', ':'); // ":foo:"
-Str::wrap('bar', '<', '>'); // "<bar>"
-Str::wrap('!zoo', '!'); // "!zoo!"
+Str::wrapWith('foo', ':'); // ":foo:"
+Str::wrapWith('bar', '<', '>'); // "<bar>"
+Str::wrapWith('!zoo', '!'); // "!zoo!"
+```
+
+> As Laravel 9 introduced `Str::wrap` macro, as of v4.0 this macro is now called `Str::wrapWith` to avoid conflicts.
+> Note: the behavior between these two macros is different:
+
+```php
+Str::wrapWith(':foo', ':'); // ":foo:"
+Str::wrap(':foo', ':'); // "::foo:"
 ```
 
 ### `Illuminate\Support\Stringable`

@@ -34,8 +34,8 @@ class CombineTest extends MacroUnitTestCase
 
     public function testCombiningWithMoreValues(): void
     {
-        $this->expectError();
-        $this->expectErrorMessage(
+        $this->expectException(\Error::class);
+        $this->expectExceptionMessage(
             'array_combine(): Argument #1 ($keys) and argument #2 ($values) must have the same number of elements'
         );
 
