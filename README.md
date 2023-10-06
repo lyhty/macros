@@ -46,10 +46,10 @@ Here's a brief documentation on the macros the package provides.
   - [`unzip`](#arrunzip)
 - [`Illuminate\Support\Str`](#illuminatesupportstr)
   - [`explodeReverse`](#strexplodereverse)
-  - [`wrap`](#strwrap)
+  - [`wrapWith`](#strwrapwith)
 - [`Illuminate\Support\Stringable`](#illuminatesupportstringable)
   - [`explodeReverse`](#stringableexplodereverse)
-  - [`wrap`](#stringablewrap)
+  - [`wrapWith`](#stringablewrapwith)
 - [`Carbon\CarbonPeriod`](#carboncarbonperiod)
   - [`collect`](#carbonperiodcollect)
 
@@ -311,7 +311,7 @@ Str::wrapWith('bar', '<', '>'); // "<bar>"
 Str::wrapWith('!zoo', '!'); // "!zoo!"
 ```
 
-> As Laravel 9 introduced `Str::wrap` macro, as of v4.0 this macro is now called `Str::wrapWith` to avoid conflicts.
+> ⚠️ As Laravel 9 introduced `Str::wrap` macro, as of v4.0 this macro is now called `Str::wrapWith` to avoid conflicts.
 > Note: the behavior between these two macros is different:
 
 ```php
@@ -334,16 +334,18 @@ Str::of('games.platforms.name')->explodeReverse('.', 2)->toArray(); // ['games.p
 Str::of('games.platforms.name')->explode('.', 2)->toArray(); // ['games', 'platforms.name']
 ```
 
-#### `Stringable::wrap`
+#### `Stringable::wrapWth`
 
-> ⚠️ This macro relies on `Str::wrap` macro. If you want to disable that macro, this macro will no longer function.
+> ⚠️ As Laravel 9 introduced `Str::wrap` macro, as of v4.0 this macro is now called `Str::wrapWith` to avoid conflicts.
 
-See [Illuminate\Support\Str::wrap](#illuminatesupportstrwrap)
+> ⚠️ This macro relies on `Str::wrapWith` macro. If you want to disable that macro, this macro will no longer function.
+
+See [Illuminate\Support\Str::wrapWith](#strwrapwith)
 
 ```php
-(string) Str::of('foo')->upper()->wrap(':'); // ":FOO:"
-(string) Str::of('bar')->upper()->wrap('<', '>'); // "<BAR>"
-(string) Str::of('!zoo')->upper()->wrap('!'); // "!ZOO!"
+(string) Str::of('foo')->upper()->wrapWith(':'); // ":FOO:"
+(string) Str::of('bar')->upper()->wrapWith('<', '>'); // "<BAR>"
+(string) Str::of('!zoo')->upper()->wrapWith('!'); // "!ZOO!"
 ```
 
 ### `Carbon\CarbonPeriod`
