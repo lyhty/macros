@@ -334,7 +334,7 @@ Str::of('games.platforms.name')->explodeReverse('.', 2)->toArray(); // ['games.p
 Str::of('games.platforms.name')->explode('.', 2)->toArray(); // ['games', 'platforms.name']
 ```
 
-#### `Stringable::wrapWth`
+#### `Stringable::wrapWith`
 
 > ⚠️ As Laravel 9 introduced `Str::wrap` macro, as of v4.0 this macro is now called `Str::wrapWith` to avoid conflicts.
 
