@@ -36,19 +36,11 @@ class PickMacro
 
     public static function resolveKey($itemIndex, $attributeIndex, $attribute, int $preserveKeys)
     {
-        switch ($preserveKeys) {
-            case PICK_WITHOUT_KEYS:
-                $last = $attributeIndex;
-                break;
-            case PICK_WITH_PARTIAL_KEYS:
-                $last = Str::afterLast($attribute, '.');
-                break;
-            case PICK_WITH_FULL_KEYS:
-            default:
-                $last = $attribute;
-                break;
-        }
-
-        return "$itemIndex.$last";
+        return "$itemIndex." . match ($preserveKeys) {
+            PICK_WITHOUT_KEYS => $attributeIndex,
+            PICK_WITH_PARTIAL_KEYS => Str::afterLast($attribute, '.'),
+            PICK_WITH_FULL_KEYS => $attribute,
+            default => $attribute,
+        };
     }
 }

@@ -33,13 +33,11 @@ class WhereLikeMacro
     {
         $searchTerm = trim($searchTerm, '%');
 
-        switch ($pattern) {
-            case 'l':
-            case 'left': return "%{$searchTerm}";
-            case 'r':
-            case 'right': return "{$searchTerm}%";
-            default: return "%{$searchTerm}%";
-        }
+        return match ($pattern) {
+            'l', 'left' => "%{$searchTerm}",
+            'r', 'right' => "{$searchTerm}%",
+            default => "%{$searchTerm}%"
+        };
     }
 
     public static function format($attributes): array
