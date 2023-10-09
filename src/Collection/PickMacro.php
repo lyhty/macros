@@ -36,7 +36,7 @@ class PickMacro
 
     public static function resolveKey($itemIndex, $attributeIndex, $attribute, int $preserveKeys)
     {
-        return "$itemIndex." . match ($preserveKeys) {
+        return "$itemIndex.".match ($preserveKeys) {
             PICK_WITHOUT_KEYS => $attributeIndex,
             PICK_WITH_PARTIAL_KEYS => Str::afterLast($attribute, '.'),
             PICK_WITH_FULL_KEYS => $attribute,
