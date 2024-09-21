@@ -4,7 +4,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lyhty/macros.svg?label=&logo=packagist&logoColor=white&style=flat-square)](https://packagist.org/packages/lyhty/macros)
 [![PHP](https://img.shields.io/packagist/php-v/lyhty/macros?label=&logo=php&logoColor=white&style=flat-square)](https://packagist.org/packages/lyhty/macros)
-[![Laravel](https://img.shields.io/static/v1?label=&message=^10.0&color=red&style=flat-square&logo=laravel&logoColor=white)](https://packagist.org/packages/lyhty/macros)
+[![Laravel](https://img.shields.io/static/v1?label=&message=^10.0%20|%20^11.0&color=red&style=flat-square&logo=laravel&logoColor=white)](https://packagist.org/packages/lyhty/macros)
 [![Total Downloads](https://img.shields.io/packagist/dt/lyhty/macros.svg?style=flat-square)](https://packagist.org/packages/lyhty/macros)
 [![StyleCI](https://github.styleci.io/repos/514416534/shield)](https://github.styleci.io/repos/514416534)
 [![License](https://img.shields.io/packagist/l/lyhty/macros.svg?style=flat-square)](https://packagist.org/packages/lyhty/macros)
