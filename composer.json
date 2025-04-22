@@ -5,7 +5,7 @@
         "laravel",
         "macro"
     ],
-    "homepage": "https://matti.suoraniemi.com/creations/lyhty/macros",
+    "homepage": "https://matti.suoraniemi.com/lyhty/macros",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -16,11 +16,11 @@
         }
     ],
     "require": {
-        "php": "^8.1 | ^8.2",
-        "illuminate/support": "^10.0 | ^11.0",
-        "illuminate/console": "^10.0 | ^11.0",
-        "lyhty/macronite": "dev-main | ^3.1",
-        "lyhty/support": "dev-main | ^2.2"
+        "php": "^8.2",
+        "illuminate/support": "^11.0 | ^12.0",
+        "illuminate/console": "^11.0 | ^12.0",
+        "lyhty/macronite": "^4.0",
+        "lyhty/support": "^3.0"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0",
