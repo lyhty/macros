@@ -1,7 +1,3 @@
-<p>
-  <img src="https://matti.suoraniemi.com/storage/lyhty-macros.png" width="400">
-</p>
-
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lyhty/macros.svg?label=&logo=packagist&logoColor=white&style=flat-square)](https://packagist.org/packages/lyhty/macros)
 [![PHP](https://img.shields.io/packagist/php-v/lyhty/macros?label=&logo=php&logoColor=white&style=flat-square)](https://packagist.org/packages/lyhty/macros)
 [![Laravel](https://img.shields.io/static/v1?label=&message=^12%20|%20^13&color=red&style=flat-square&logo=laravel&logoColor=white)](https://packagist.org/packages/lyhty/macros)
