@@ -17,14 +17,14 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/support": "^11.0 | ^12.0",
-        "illuminate/console": "^11.0 | ^12.0",
-        "lyhty/macronite": "^4.0",
-        "lyhty/support": "^3.0"
+        "illuminate/support": "^12.0 | ^13.0",
+        "illuminate/console": "^12.0 | ^13.0",
+        "lyhty/macronite": "^5.0",
+        "lyhty/support": "^4.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^8.0",
-        "phpunit/phpunit": "^9.5"
+        "orchestra/testbench": "^11.0",
+        "phpunit/phpunit": "^13.0"
     },
     "autoload": {
         "psr-4": {

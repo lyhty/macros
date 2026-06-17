@@ -15,8 +15,6 @@ class MacroServiceProvider extends ServiceProvider
     protected static array $macros = [
         \Illuminate\Database\Eloquent\Builder::class => [
             'selectKey' => Builder\SelectKeyMacro::class,
-            'whereLike' => Builder\WhereLikeMacro::class,
-            'orWhereLike' => Builder\WhereLikeOrMacro::class,
         ],
         \Illuminate\Database\Query\Builder::class => [
             'selectRawArr' => Builder\SelectRawArrMacro::class,
@@ -34,7 +32,6 @@ class MacroServiceProvider extends ServiceProvider
             'combine' => Arr\CombineMacro::class,
             'fillKeys' => Arr\FillKeysMacro::class,
             'implode' => Arr\ImplodeMacro::class,
-            'join' => Arr\JoinMacro::class,
             'unzip' => Arr\UnzipMacro::class,
             'zip' => Arr\ZipMacro::class,
         ],

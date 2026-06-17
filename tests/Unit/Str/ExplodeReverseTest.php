@@ -16,7 +16,7 @@ class ExplodeReverseTest extends MacroUnitTestCase
     {
         $result = $this->callStaticMacro('user.products.manifacturer', '.');
         $this->assertInstanceOf(Collection::class, $result);
-        $this->assertContainsOnly('string', $result);
+        $this->assertContainsOnlyString($result);
     }
 
     public function testReverseExplodingStringFully(): void

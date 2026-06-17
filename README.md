@@ -4,7 +4,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lyhty/macros.svg?label=&logo=packagist&logoColor=white&style=flat-square)](https://packagist.org/packages/lyhty/macros)
 [![PHP](https://img.shields.io/packagist/php-v/lyhty/macros?label=&logo=php&logoColor=white&style=flat-square)](https://packagist.org/packages/lyhty/macros)
-[![Laravel](https://img.shields.io/static/v1?label=&message=^11%20|%20^12&color=red&style=flat-square&logo=laravel&logoColor=white)](https://packagist.org/packages/lyhty/macros)
+[![Laravel](https://img.shields.io/static/v1?label=&message=^12%20|%20^13&color=red&style=flat-square&logo=laravel&logoColor=white)](https://packagist.org/packages/lyhty/macros)
 [![Total Downloads](https://img.shields.io/packagist/dt/lyhty/macros.svg?style=flat-square)](https://packagist.org/packages/lyhty/macros)
 [![StyleCI](https://github.styleci.io/repos/514416534/shield)](https://github.styleci.io/repos/514416534)
 [![License](https://img.shields.io/packagist/l/lyhty/macros.svg?style=flat-square)](https://packagist.org/packages/lyhty/macros)
@@ -27,7 +27,6 @@ Here's a brief documentation on the macros the package provides.
 
 - [`Illuminate\Database\Eloquent\Builder`](#illuminatedatabaseeloquentbuilder)
   - [`selectKey`](#builderselectkey)
-  - [`whereLike` & `orWhereLike`](#builderwherelike--orwherelike)
 - [`Illuminate\Database\Query\Builder`](#illuminatedatabasequerybuilder)
   - [`selectRawArr`](#builderselectrawarr)
 - [`Illuminate\Support\Collection`](#illuminatesupportcollection)
@@ -41,7 +40,6 @@ Here's a brief documentation on the macros the package provides.
   - [`combine`](#arrcombine)
   - [`fillKeys`](#arrfillkeys)
   - [`implode`](#arrimplode)
-  - [`join`](#arrjoin)
   - [`zip`](#arrzip)
   - [`unzip`](#arrunzip)
 - [`Illuminate\Support\Str`](#illuminatesupportstr)
@@ -66,40 +64,6 @@ $query->toSql(); // "select `id` from `users`"
 ```
 
 ### `Illuminate\Database\Query\Builder`
-
-#### `Builder::whereLike` & `orWhereLike`
-
-> ⚠️ This macro relies on `Str::explodeReverse` macro. If you want to disable the latter macro, this macro will no longer function.
-
-> ⚠️ The `Builder::orWhereLike` macro relies on `Builder::whereLike` macro. If you want to disable the `whereLike` macro, be sure to disable the `orWhereLike` macro as well.
-
-```php
-$query = User::query()
-    ->whereLike('name', 'Matti Suo', 'right')
-    ->orWhereLike('name', 'ranie')
-    ->orWhereLike('name', 'mi', 'left');
-
-$query->toSql();
-// "select * from `users` where (`users`.`name` LIKE ?) or (`users`.`name` LIKE ?) or (`users`.`name` LIKE ?)"
-// First ? being "Matti Suo%", second "%ranie%" and third "%mi"
-
-$query = User::query()->whereLike('games.name', 'Apex Leg', 'right');
-
-$query->toSql();
-// select * from `users` where (exists
-//   (select * from `games` where `users`.`id` = `games`.`user_id` and `games`.`name` LIKE ?)
-// )
-// ? being "Apex Leg%"
-
-$query = User::query()->whereLike(['games.console.name', 'games.platforms.name'], 'Xbox');
-
-$query->toSql();
-// select * from `users` where (exists (select * from `games` where `users`.`id` = `games`.`user_id` and (exists
-// (select * from `consoles` where `games`.`console_id` = `consoles`.`id` and (`consoles`.`name` LIKE ?)) or exists
-// (select * from `platforms` inner join `platform_game` on `platforms`.`id` = `platform_game`.`platform_id` where
-// `games`.`id` = `platform_game`.`game_id` and (`platforms`.`name` LIKE ?)))))
-// ? being "Xbox"
-```
 
 #### `Builder::selectRawArr`
 
@@ -263,14 +227,6 @@ $array = ['foo', 'bar'];
 (string) Arr::implode($array, ' ')->upper(); // "FOO BAR"
 ```
 
-#### `Arr::join`
-
-Collection's nice join method brought to Arr.
-
-```php
-Arr::join(['foo', 'bar', 'zoo'], ', ', ' and '); // "foo, bar and zoo"
-```
-
 #### `Arr::zip`
 
 Zips the key and value together with the given zipper.
@@ -287,6 +243,8 @@ Unzips keys to key and value with the given zipper.
 Arr::unzip(['foo:bar', 'zoo:gar'], ':'); // ["foo" => "bar", "zoo" => "gar"]
 ```
 
+### `Illuminate\Support\Str`
+
 #### `Str::explodeReverse`
 
 Explodes the given string from the end instead of the start and returns it as
@@ -298,8 +256,6 @@ Str::explodeReverse('games.platforms.name', '.', 2)->toArray(); // ['games.platf
 // Whereas normal explode function would do:
 explode('.', 'games.platforms.name', 2); // ['games', 'platforms.name']
 ```
-
-### `Illuminate\Support\Str`
 
 #### `Str::wrapWith`
 

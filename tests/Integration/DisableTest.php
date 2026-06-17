@@ -18,8 +18,17 @@ class DisableTest extends TestCase
 
     public function testMacroIsDisabled(): void
     {
-        $this->assertFalse(Arr::hasMacro('associate'));
-        $this->assertFalse(Str::hasMacro('explodeReverse'));
+        $tests = [
+            Arr::class => 'associate',
+            Str::class => 'explodeReverse',
+        ];
+
+        foreach ($tests as $class => $macro) {
+            $this->assertFalse(
+                $class::hasMacro($macro),
+                sprintf('%s still has macro `%s` when it should be disabled.', $class, $macro)
+            );
+        }
     }
 
     public function testMacroIsEnabled(): void

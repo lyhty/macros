@@ -3,7 +3,7 @@
 return [
 
     'disabled' => [
-        // 'Illuminate\Support\Str@wrap' => true,
+        // 'Illuminate\Support\Str@explodeReverse' => true,
     ],
 
 ];
