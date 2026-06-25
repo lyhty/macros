@@ -30,16 +30,18 @@ class SearchLikeMacro
                 : SearchPattern::from($pattern);
 
             return $this->where(
-                column: fn (Builder $query) => $class::scope($query, $attributes, $pattern->format($searchTerm)),
+                column: fn (Builder $query) => $class::scope(
+                    $query,
+                    $class::parseAttributes($attributes),
+                    $pattern->format($searchTerm)
+                ),
                 boolean: $or ? 'or' : 'and'
             );
         };
     }
 
-    public static function scope(Builder $query, array|string $attributes, string $searchTerm)
+    public static function scope(Builder $query, array $values, string $searchTerm)
     {
-        $values = static::parseAttributes($attributes);
-
         foreach ($values['_attrs'] ?? [] as $index => $attribute) {
             $model = $query->getModel();
             $query->orWhere($model->qualifyColumn($attribute), 'LIKE', $searchTerm);
