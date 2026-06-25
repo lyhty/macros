@@ -30,17 +30,29 @@ class SearchLikeMacro
                 : SearchPattern::from($pattern);
 
             return $this->where(
-                column: fn (Builder $query) => $class::scope(
-                    $query,
-                    $class::format($attributes),
-                    $pattern->format($searchTerm)
-                ),
+                column: fn (Builder $query) => $class::scope($query, $attributes, $pattern->format($searchTerm)),
                 boolean: $or ? 'or' : 'and'
             );
         };
     }
 
-    private static function format(array|string $attributes): array
+    public static function scope(Builder $query, array|string $attributes, string $searchTerm)
+    {
+        $values = static::parseAttributes($attributes);
+
+        foreach ($values['_attrs'] ?? [] as $index => $attribute) {
+            $model = $query->getModel();
+            $query->orWhere($model->qualifyColumn($attribute), 'LIKE', $searchTerm);
+        }
+
+        foreach (Arr::except($values, ['_attrs']) as $relationship => $sub) {
+            $query->orWhereHas($relationship, fn (Builder $query) => $query->where(
+                fn (Builder $query) => static::scope($query, $sub, $searchTerm)
+            ));
+        }
+    }
+
+    private static function parseAttributes(array|string $attributes): array
     {
         $attrs = ['_attrs' => []];
 
@@ -54,19 +66,5 @@ class SearchLikeMacro
         }
 
         return Arr::undot($attrs);
-    }
-
-    private static function scope(Builder $query, array $values, string $searchTerm)
-    {
-        foreach ($values['_attrs'] ?? [] as $index => $attribute) {
-            $model = $query->getModel();
-            $query->orWhere($model->qualifyColumn($attribute), 'LIKE', $searchTerm);
-        }
-
-        foreach (Arr::except($values, ['_attrs']) as $relationship => $sub) {
-            $query->orWhereHas($relationship, fn (Builder $query) => $query->where(
-                fn (Builder $query) => static::scope($query, $sub, $searchTerm)
-            ));
-        }
     }
 }
