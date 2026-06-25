@@ -54,7 +54,7 @@ class SearchLikeMacro
         }
     }
 
-    private static function parseAttributes(array|string $attributes): array
+    public static function parseAttributes(array|string $attributes): array
     {
         $attrs = ['_attrs' => []];
 
