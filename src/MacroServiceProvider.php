@@ -15,6 +15,8 @@ class MacroServiceProvider extends ServiceProvider
     protected static array $macros = [
         \Illuminate\Database\Eloquent\Builder::class => [
             'selectKey' => Builder\SelectKeyMacro::class,
+            'searchLike' => Builder\SearchLikeMacro::class,
+            'orSearchLike' => Builder\SearchLikeOrMacro::class,
         ],
         \Illuminate\Database\Query\Builder::class => [
             'selectRawArr' => Builder\SelectRawArrMacro::class,

@@ -23,6 +23,7 @@ Here's a brief documentation on the macros the package provides.
 
 - [`Illuminate\Database\Eloquent\Builder`](#illuminatedatabaseeloquentbuilder)
   - [`selectKey`](#builderselectkey)
+  - [`searchLike` & `orSearchLike`](#buildersearchlike--orsearchlike)
 - [`Illuminate\Database\Query\Builder`](#illuminatedatabasequerybuilder)
   - [`selectRawArr`](#builderselectrawarr)
 - [`Illuminate\Support\Collection`](#illuminatesupportcollection)
@@ -57,6 +58,44 @@ Select the key of the model in the query (uses Model's `getKey` method).
 $query = User::query()->selectKey();
 
 $query->toSql(); // "select `id` from `users`"
+```
+
+#### `Builder::searchLike` & `orSearchLike`
+
+> ⚠️ This macro relies on `Str::explodeReverse` macro. If you want to disable that macro, this macro will no longer function.
+
+> ⚠️ The `Builder::orSearchLike` macro relies on `Builder::searchLike` macro. If you want to disable the `searchLike` macro, be sure to disable the `orSearchLike` macro as well.
+
+```php
+use Lyhty\Macros\SearchPattern;
+
+$query = User::query()
+    ->searchLike('name', 'Matti Suo', SearchPattern::Left)
+    ->orSearchLike('name', 'ranie', SearchPattern::Both)
+    ->orSearchLike('name', 'mi', SearchPattern::Right)
+    ->orSearchLike('name', 'Mat%i%emi', SearchPattern::Custom);
+
+$query->toSql();
+// "select * from `users` where (`users`.`name` LIKE ?) or (`users`.`name` LIKE ?) or (`users`.`name` LIKE ?) or (`users`.`name` LIKE ?)"
+// First ? being "Matti Suo%", second "%ranie%", third "%mi" and fourth being the given search pattern as the search term ("Mat%i%emi" in this case)
+
+$query = User::query()->searchLike('games.name', 'Apex Leg', SearchPattern::Right);
+
+$query->toSql();
+// select * from `users` where (exists
+//   (select * from `games` where `users`.`id` = `games`.`user_id` and `games`.`name` LIKE ?)
+// )
+// ? being "Apex Leg%"
+
+// The pattern defaults to SearchPattern::Both, which means the given string will be wrapped with '%'.
+$query = User::query()->searchLike(['games.console.name', 'games.platforms.name'], 'Xbox');
+
+$query->toSql();
+// select * from `users` where (exists (select * from `games` where `users`.`id` = `games`.`user_id` and (exists
+// (select * from `consoles` where `games`.`console_id` = `consoles`.`id` and (`consoles`.`name` LIKE ?)) or exists
+// (select * from `platforms` inner join `platform_game` on `platforms`.`id` = `platform_game`.`platform_id` where
+// `games`.`id` = `platform_game`.`game_id` and (`platforms`.`name` LIKE ?)))))
+// ? being "Xbox"
 ```
 
 ### `Illuminate\Database\Query\Builder`
